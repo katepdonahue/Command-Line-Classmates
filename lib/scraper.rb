@@ -11,7 +11,7 @@ class Scraper
   end
 
   def get_students_names
-    html.search("h3").text
+    html.search("h3").text.split(/(?<=[a-z.])(?=[A-Z])/)
   end
 
   def get_twitter
@@ -22,7 +22,7 @@ class Scraper
   def get_blog
     blog_url = []
     19.times do |i|
-      blog_url << html.search("a.blog[href]")[i]["href"]
+      blog_url << html.search("a.blog")[i]["href"]
     end
     blog_url
   end
@@ -30,4 +30,4 @@ class Scraper
 end
 
 my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
-puts my_scraper.get_blog
+puts my_scraper.get_students_names
