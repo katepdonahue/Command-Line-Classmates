@@ -41,6 +41,6 @@ class Scraper
 
 end
 
-my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
-puts my_scraper.get_blog
+# my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
+# puts my_scraper.get_blog
 

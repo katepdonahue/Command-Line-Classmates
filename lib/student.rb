@@ -8,5 +8,5 @@ class Student
     @twitter = twitter
     @blog = blog
   end
-  
+
 end
