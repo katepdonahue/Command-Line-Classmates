@@ -15,23 +15,20 @@ class Scraper
   end
 
   def get_twitter
-    mixed_array = html.search("li:first-child a").text.split(" ")
-    twitter_array = []
-    mixed_array.map do |name| 
-      if name[0] == "@"
-        twitter_array << name
-      else
-        twitter_array << "none"
+    twitter = []
+    html.search(".back").search("a.twitter").text.split.each do |x|
+      if x[0] == "@"
+        twitter << x
       end
     end
-    twitter_array
+    twitter
   end
 
   def get_blog
     blog_url = []
-    html.search("ul.social").each do |social_div|
-      if social_div.search("a.blog").text == "Blog"
-        blog_url << social_div.search("a.blog")[0]["href"]
+    html.search(".back").each do |back_plate|
+      if back_plate.search("a.blog").text == "Blog"
+        blog_url << back_plate.search("a.blog")[0]["href"]
       else
         blog_url << "none"
       end
@@ -42,5 +39,42 @@ class Scraper
 end
 
 # my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
-# puts my_scraper.get_blog
+# p my_scraper.get_twitter
 
+  # doesn't work:
+  # def get_twitter
+  #   twitter = []
+  #   html.search(".back").each do |back_plate|
+  #     if back_plate.search("a.twitter").text.split[0] == "@"
+  #       twitter << x
+  #     else
+  #       twitter << "none"
+  #     end
+  #   end
+  #   twitter
+  # end
+
+ # def get_twitter
+ #    twitter = []
+ #    html.search(".back").each do |back_plate|
+ #      if back_plate.search("a.twitter").text.split[0] == "@"
+ #        twitter << back_plate.search("a.twitter").text
+ #      else
+ #        twitter << "none"
+ #      end
+ #    end
+ #    twitter
+ #  end
+
+# def get_twitter
+#     mixed_array = html.search("li:first-child a").text.split(" ")
+#     twitter_array = []
+#     mixed_array.map do |name| 
+#       if name[0] == "@"
+#         twitter_array << name
+#       else
+#         twitter_array << "none"
+#       end
+#     end
+#     twitter_array
+#   end

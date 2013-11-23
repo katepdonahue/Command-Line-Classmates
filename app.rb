@@ -1,28 +1,62 @@
+require 'launchy'
 require './lib/scraper'
 require './lib/student'
 
-# make a new instance of the class scraper
+class App
+  attr_reader :names, :twitters, :blogs
 
-my_scraper = Scraper.new "http://flatironschool-bk.herokuapp.com/"
+  def initialize
+    my_scraper = Scraper.new "http://flatironschool-bk.herokuapp.com/"
+    @names = my_scraper.get_students_names
+    @twitters = my_scraper.get_twitter
+    @blogs = my_scraper.get_blog
+  end
 
-# get the student names from the scraper
+  def generate_directory
+    our_class = []
+    28.times do |i|
+      our_class << Student.new(names[i], twitters[i], blogs[i])
+    end
+    our_class
+  end
 
-students = my_scraper.get_students_names
+  def directory
+    generate_directory.each do |classmate|
+      puts "Name: #{classmate.name},  Twitter: #{classmate.twitter}, Blog: #{classmate.blog}\n"
+    end
+  end
 
-# get the blogs
+  def random_blog
+    Launchy.open("#{blogs.sample}")
+  end
 
-blogs = my_scraper.get_blog
+  def random_twitter
+    Launchy.open("twitter.com/#{twitters.sample[1..-1]}")
+  end
 
-# get the twitter
+  def blog(stu_name)
+    generate_directory.each do |student_object|
+      if student_object.name.start_with?(stu_name)
+        Launchy.open("#{student_object.blog}")
+      end
+    end
+  end
 
-twitters = my_scraper.get_twitter
+  def twitter(stu_name)
+    generate_directory.each do |student_object|
+      if student_object.name.start_with?(stu_name)
+        Launchy.open("twitter.com/#{student_object.twitter[1..-1]}")
+      end
+    end
+  end
 
-# make a new student object for each person
-our_class = []
-28.times do |i|
-  our_class << Student.new(students[i], twitters[i], blogs[i])
 end
 
-our_class.each do |classmate|
-  puts "Name: #{classmate.name} Twitter: #{classmate.twitter} Blog: #{classmate.blog}"
-end
+# app1 = App.new
+# app1.blog("Kate")
+
+# twitters matching up but I already knew that would happen... going to fix this
+
+
+
+
